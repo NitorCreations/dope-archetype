@@ -35,6 +35,17 @@ target/baz-prez-1.0-SNAPSHOT.zip
 
  * ```developerName``` Used on the title slide and put into the developers section in the presentation pom.
  * ```organizationName``` Used on the title slide and put into the organization section in the pom.
- * ```name``` Used in the title of all slide html sources and on the title slide. If not given, artifactId with dashes replaced with spaces is used.
+ * ```inceptionYear``` Used as copyright year on the title slide and put into the inceptionYear section in the pom.
+ * ```name``` Used in the title of all slide html sources and on the title slide. If not given, artifactId with dashes replaced with spaces and words capitalized is used.
  * ```theme``` Used for the name of css files from the pom configuration of the ```dope-maven-plugin``` in the pom.
     * Archetype currently has themes 'dark' and 'light'. 'dark' is the default 
+
+### Example with all optional parameters defined ###
+
+```
+mvn archetype:generate -DarchetypeArtifactId=dope-archetype \
+  -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
+  -DdeveloperName="Pasi Niemi" -DorganizationName="Nitor Creations" \
+  -DinceptionYear=2013 -Dname="Baz Bar Awesomeness" \
+  -Dtheme=light -DartifactId=baz-prez -DinteractiveMode=false
+```

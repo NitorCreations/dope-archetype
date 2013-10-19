@@ -2,6 +2,18 @@
   xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd"
   name="Developer Oriented Presentation Engine Maven Archetype" partial="false" >
   <requiredProperties>
+    <requiredProperty key="developerName">
+      <defaultValue>-</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="organizationName">
+      <defaultValue>-</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="inceptionYear">
+      <defaultValue>-</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="name">
+      <defaultValue>-</defaultValue>
+    </requiredProperty>
     <requiredProperty key="theme">
       <defaultValue>dark</defaultValue>
     </requiredProperty>

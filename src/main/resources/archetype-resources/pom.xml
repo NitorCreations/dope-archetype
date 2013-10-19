@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 #set($dollar = '$')
-#set($spaced = $artifactId.replace("-", " "))
+#set($spaced = "")
+#foreach($word in $artifactId.split("-"))
+  #set($spaced = $spaced + $word.substring(0,1).toUpperCase() + $word.substring(1) + " ")
+#end
+#set($spaced = $spaced.trim())
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>${groupId}</groupId>
   <artifactId>${artifactId}</artifactId>
   <version>${version}</version>
-  <name>#if ($name)$name#else$spaced#end</name>
+  <name>#if($name == "-")$spaced#else$name#end</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,25 +18,22 @@
   </properties>
 
   <developers>
-  #if ($developerName)
-    <developer>
-      <name>$developerName</name>
+#if($developerName != "-")    <developer>
+      <name>${developerName}</name>
     </developer>
-  #end
-  </developers>
-  #if ($organizationName)
-  <organization>
-    <name>$organizationName</name>
+#end  </developers>
+#if($organizationName != "-")  <organization>
+    <name>${organizationName}</name>
   </organization>
-  #end
-  <inceptionYear>$date</inceptionYear>
-  <dependencies>
+#end
+#if($inceptionYear != "-")  <inceptionYear>${inceptionYear}</inceptionYear>
+#end  <dependencies>
     <dependency>
       <groupId>com.oracle</groupId>
       <artifactId>javafx</artifactId>
       <version>2.2</version>
       <scope>system</scope>
-      <systemPath>${java.home}/lib/ext/jfxrt.jar</systemPath>
+      <systemPath>${dollar}{java.home}/lib/ext/jfxrt.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>net.sf.bluecove</groupId>
