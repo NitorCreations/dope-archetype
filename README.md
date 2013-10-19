@@ -1,4 +1,40 @@
-dope-archetype
-==============
 
-Developer Oriented Presentation Engine Archetype
+# Developer Oriented Presentation Engine Archetype #
+
+Maven archetype for creating DOPE slidesets.
+
+## Using ##
+
+ * Generate maven project
+```
+mvn archetype:generate -DarchetypeArtifactId=dope-archetype \
+  -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
+  -DartifactId=baz-prez -DinteractiveMode=false
+```
+
+ * Build project
+
+```
+cd baz-prez; mvn clean install
+```
+
+ * Run presentation with http server on port 9999, without wiimote
+
+```
+java -Dnowiimote=true -Dhttpport=9999 -jar target/jfx/app/baz-prez-1.0-SNAPSHOT-jfx.jar
+```
+
+ * Presentation as a zip in 
+
+
+```
+target/baz-prez-1.0-SNAPSHOT.zip
+```
+
+## Optional Parameters ##
+
+ * ```developerName``` Used on the title slide and put into the developers section in the presentation pom.
+ * ```organizationName``` Used on the title slide and put into the organization section in the pom.
+ * ```name``` Used in the title of all slide html sources and on the title slide. If not given, artifactId with dashes replaced with spaces is used.
+ * ```theme``` Used for the name of css files from the pom configuration of the ```dope-maven-plugin``` in the pom.
+    * Archetype currently has themes 'dark' and 'light'. 'dark' is the default 
