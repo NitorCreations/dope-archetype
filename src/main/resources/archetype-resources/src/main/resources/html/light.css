@@ -24,6 +24,8 @@ ul li ul{margin:20px 40px;list-style-image:url('bullet_2.png');}
 
 code{font-size:42px;font-family:courier}
 span{font-size:42px;font-family:courier}
+table { padding: 70px 30px; }
+td { padding: 5px 20px; }
 
 img, video, video img {height:700px;width:auto;display: block;margin-left: auto;margin-right: auto }
 

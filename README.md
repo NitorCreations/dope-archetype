@@ -1,4 +1,3 @@
-
 # Developer Oriented Presentation Engine Archetype #
 
 Maven archetype for creating DOPE slidesets.
@@ -6,6 +5,7 @@ Maven archetype for creating DOPE slidesets.
 ## Using ##
 
  * Generate maven project
+
 ```
 mvn archetype:generate -DarchetypeArtifactId=dope-archetype \
   -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
@@ -25,7 +25,6 @@ java -Dnowiimote=true -Dhttpport=9999 -jar target/jfx/app/baz-prez-1.0-SNAPSHOT-
 ```
 
  * Presentation as a zip in 
-
 
 ```
 target/baz-prez-1.0-SNAPSHOT.zip
