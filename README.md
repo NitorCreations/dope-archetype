@@ -7,7 +7,7 @@ Maven archetype for creating DOPE slidesets.
  * Generate maven project
 
 ```
-mvn archetype:generate -DarchetypeArtifactId=dope-archetype \
+mvn archetype:generate -DarchetypeVersion=1.2 -DarchetypeArtifactId=dope-archetype \
   -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
   -DartifactId=baz-prez -DinteractiveMode=false
 ```
@@ -18,13 +18,13 @@ mvn archetype:generate -DarchetypeArtifactId=dope-archetype \
 cd baz-prez; mvn clean install
 ```
 
- * Run presentation with http server on port 9999, without wiimote
+ * Run presentation with http server on port 9999, with wiimote, with spinning slide transitions (default is bump-and-fade)
 
 ```
-java -Dnowiimote=true -Dhttpport=9999 -jar target/jfx/app/baz-prez-1.0-SNAPSHOT-jfx.jar
+java -Dwiimote=true -Dhttpport=9999 -Dcontroller=foo.bar.SpinController -jar target/jfx/app/baz-prez-1.0-SNAPSHOT-jfx.jar
 ```
 
- * Presentation as a zip in 
+ * Presentation as a zip in
 
 ```
 target/baz-prez-1.0-SNAPSHOT.zip
@@ -42,9 +42,13 @@ target/baz-prez-1.0-SNAPSHOT.zip
 ### Example with all optional parameters defined ###
 
 ```
-mvn archetype:generate -DarchetypeArtifactId=dope-archetype \
+mvn archetype:generate -DarchetypeVersion=1.2 -DarchetypeArtifactId=dope-archetype \
   -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
   -DdeveloperName="Pasi Niemi" -DorganizationName="Nitor Creations" \
   -DinceptionYear=2013 -Dname="Baz Bar Awesomeness" \
   -Dtheme=light -DartifactId=baz-prez -DinteractiveMode=false
 ```
+
+## Custom transitions ##
+
+All of the code that runs the transtions is included in the created project. Just extend ```${package}.BaseController``` to make your own.

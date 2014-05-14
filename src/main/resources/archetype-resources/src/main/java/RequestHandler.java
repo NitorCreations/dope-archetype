@@ -6,7 +6,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import ${package}.PresentationHttpServer.Range;
+import com.nitorcreations.PresentationHttpServer.Range;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -14,13 +14,13 @@ import com.sun.net.httpserver.HttpHandler;
 @SuppressWarnings("restriction")
 class RequestHandler implements HttpHandler {
 	private final String context;
-	private PresentationController controller = null;
+	private BaseController controller = null;
 	
 	public RequestHandler(String context) {
 		this.context = context;
 	}
 	
-	public RequestHandler(String context, PresentationController controller) {
+	public RequestHandler(String context, BaseController controller) {
 		this.context = context;
 		this.controller = controller;
 	}
