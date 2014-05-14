@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.nitorcreations</groupId>
   <artifactId>dope-archetype</artifactId>
-  <version>1.5-SNAPSHOT</version>
+  <version>1.5</version>
   <packaging>maven-archetype</packaging>
   <name>Developer Oriented Presentation Engine Maven Archetype</name>
   <description>A presentation system intended for more advanced users. Think Powerpoint meets Markdown.</description>
