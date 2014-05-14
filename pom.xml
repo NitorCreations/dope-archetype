@@ -6,29 +6,25 @@
   <version>1.5-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
   <name>Developer Oriented Presentation Engine Maven Archetype</name>
+  <description>A presentation system intended for more advanced users. Think Powerpoint meets Markdown.</description>
   <url>https://github.com/NitorCreations/dope-archetype</url>
-
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
     <version>7</version>
   </parent>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <targetJdk>1.7</targetJdk>
   </properties>
-
   <scm>
     <developerConnection>scm:git:git@github.com:NitorCreations/dope-archetype.git</developerConnection>
     <connection>scm:git:git@github.com:NitorCreations/dope-archetype.git</connection>
     <tag>HEAD</tag>
   </scm>
-
   <prerequisites>
     <maven>3.0.5</maven>
   </prerequisites>
-
   <developers>
     <developer>
       <id>psiniemi</id>
@@ -37,7 +33,6 @@
       <url>http://www.linkedin.com/in/psiniemi</url>
     </developer>
   </developers>
-
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
@@ -45,7 +40,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
   <build>
     <extensions>
       <extension>
@@ -54,7 +48,6 @@
         <version>2.2</version>
       </extension>
     </extensions>
-
     <pluginManagement>
       <plugins>
         <plugin>
