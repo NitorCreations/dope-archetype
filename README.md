@@ -7,7 +7,7 @@ Maven archetype for creating DOPE slidesets.
  * Generate maven project
 
 ```
-mvn archetype:generate -DarchetypeVersion=1.2 -DarchetypeArtifactId=dope-archetype \
+mvn archetype:generate -DarchetypeVersion=1.4 -DarchetypeArtifactId=dope-archetype \
   -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
   -DartifactId=baz-prez -DinteractiveMode=false
 ```
@@ -42,7 +42,7 @@ target/baz-prez-1.0-SNAPSHOT.zip
 ### Example with all optional parameters defined ###
 
 ```
-mvn archetype:generate -DarchetypeVersion=1.2 -DarchetypeArtifactId=dope-archetype \
+mvn archetype:generate -DarchetypeVersion=1.4 -DarchetypeArtifactId=dope-archetype \
   -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
   -DdeveloperName="Pasi Niemi" -DorganizationName="Nitor Creations" \
   -DinceptionYear=2013 -Dname="Baz Bar Awesomeness" \
