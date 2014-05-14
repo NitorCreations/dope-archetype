@@ -30,6 +30,8 @@
       <id>psiniemi</id>
       <name>Pasi Niemi</name>
       <email>pasi.niemi@nitorcreations.com</email>
+      <organization>Nitor Creations</organization>
+      <organizationUrl>http://nitorcreations.com/</organizationUrl>
       <url>http://www.linkedin.com/in/psiniemi</url>
     </developer>
   </developers>
