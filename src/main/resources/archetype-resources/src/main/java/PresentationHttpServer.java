@@ -30,6 +30,12 @@ public class PresentationHttpServer {
 			passwd.load(new FileInputStream(System.getProperty("httpfollowpasswords")));
 			cc.setAuthenticator(new DigestAuthenticator(passwd, "follow-presentation"));
 		}
+		cc = server.createContext("/reveal/", new RequestHandler("reveal", controller));
+		if (System.getProperty("httprevealpasswords") != null) {
+			Properties passwd = new Properties();
+			passwd.load(new FileInputStream(System.getProperty("httprevealpasswords")));
+			cc.setAuthenticator(new DigestAuthenticator(passwd, "reveal-presentation"));
+		}
 		cc = server.createContext("/", new RequestHandler(""));
 		if (System.getProperty("httpdefaultpasswords") != null) {
 			Properties passwd = new Properties();
