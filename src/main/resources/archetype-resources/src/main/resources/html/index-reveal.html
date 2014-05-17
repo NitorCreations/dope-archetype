@@ -21,6 +21,8 @@
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="zenburn.css">
     <link rel="stylesheet" href="font-awesome.min.css">
+    <style type="text/css">code{white-space: pre;}</style>
+    <link rel="stylesheet" href="code-theme-$css" type="text/css" />
 
     <!-- If the query includes 'print-pdf', include the PDF print sheet -->
     <script>
@@ -41,7 +43,7 @@
   <body>
     <div class="reveal">
       <div class="slides">
-        <section>
+        <section  data-background-transition="slide" data-background="verrochio.jpg" style="background: rgba(0,0,0,0.2)">
           <h1>$name</h1>
           <ul>
 #if(!$project.developers.isEmpty())<li>#foreach($developer in $project.developers)
@@ -51,6 +53,7 @@
           </ul>
 #set ($prevSlideBase = '' )
 #set ($baseSlideIndex = 0 )
+#set ($parallelPages = 1 )
 #foreach ( $slidename in $slidenames)
   #if ($slidename != 'title' )
     #set ($index = $slidename.indexOf('$') )
@@ -59,10 +62,16 @@
         </section>
         <section>
       #set ($prevSlideBase = $slideBase )
+      #set ($parallelPages = $parallelPages + 1 )
     #end
           <section>
             $htmls[$slidename]
           </section>
+          <aside class="notes">
+            #if ($notes[$slidename]) 
+              $notes[$slidename]
+            #end
+          </aside>
   #end
 #end
         </section>
@@ -71,7 +80,8 @@
     <script src="head.min.js"></script>
     <script src="reveal.min.js"></script>
     <script>
-
+      var parallaxWidth = ($parallelPages * window.innerWidth) / 5;
+      var parallaxHeight = (parallaxWidth * 2470) / 5760;
       // Full list of configuration options available here:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
@@ -79,17 +89,16 @@
       progress: true,
       history: true,
       center: true,
-      width: 1280,
-      height: 720,
+      width: window.innerWidth,
+      height: window.innerHeight,
       backgroundTransition: 'default',
 
       theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
       transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/fade/none
 
       // Parallax scrolling
-      parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-      parallaxBackgroundSize: '12000px 1800px',
-      //parallaxBackgroundSize: '2048px 1800px',
+      parallaxBackgroundImage: 'verrochio.jpg',
+      parallaxBackgroundSize: '' + parallaxWidth + 'px ' + parallaxHeight + 'px',
 
       // Optional libraries used to extend on reveal.js
       dependencies: [
