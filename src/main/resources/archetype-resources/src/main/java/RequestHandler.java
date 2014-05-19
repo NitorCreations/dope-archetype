@@ -2,11 +2,16 @@ package ${package};
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.nitorcreations.PresentationHttpServer.Range;
+
+import ${package}.PresentationHttpServer.Range;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -15,16 +20,16 @@ import com.sun.net.httpserver.HttpHandler;
 class RequestHandler implements HttpHandler {
 	private final String context;
 	private BaseController controller = null;
-	
+
 	public RequestHandler(String context) {
 		this.context = context;
 	}
-	
+
 	public RequestHandler(String context, BaseController controller) {
 		this.context = context;
 		this.controller = controller;
 	}
-	
+
 	public void handle(HttpExchange exchange) throws IOException {
 		String requestMethod = exchange.getRequestMethod();
 		if (requestMethod.equalsIgnoreCase("GET")) {
@@ -36,7 +41,7 @@ class RequestHandler implements HttpHandler {
 			if (path.startsWith("/")) {
 				path = path.substring(1);
 			}
-			
+
 			if (path.startsWith("show") && context.equals("run")) {
 				responseHeaders.set("Content-Type", "text/plain");
 				try {
@@ -48,7 +53,7 @@ class RequestHandler implements HttpHandler {
 					}
 					exchange.sendResponseHeaders(200, 0);
 					OutputStream responseBody = exchange.getResponseBody();
-					responseBody.write(Integer.toString(controller.curentSlide()).getBytes());
+					responseBody.write(Integer.toString(controller.currentSlide()).getBytes());
 					responseBody.close();
 				} catch (NullPointerException | ArrayIndexOutOfBoundsException | NumberFormatException e) {
 					System.out.println("Illegal slide show command " + path);
@@ -64,7 +69,26 @@ class RequestHandler implements HttpHandler {
 				responseHeaders.set("Content-Type", "text/plain");
 				exchange.sendResponseHeaders(200, 0);
 				OutputStream responseBody = exchange.getResponseBody();
-				responseBody.write(Integer.toString(controller.curentSlide()).getBytes());
+				responseBody.write(Integer.toString(controller.currentSlide()).getBytes());
+				responseBody.close();
+				return;
+			}
+
+			if (path.startsWith("pollchange")) {
+				Map<String, String> params = splitQuery(uri);
+				int fromSlide = controller.currentSlide();
+				try {
+					fromSlide = Integer.valueOf(params.get("from"));
+				} catch (Throwable t) {}
+				long timeout = 10000;
+				try {
+					timeout = Long.valueOf(params.get("timeout"));
+				} catch (Throwable t) {}
+				int delta = controller.pollSlideChange(timeout, fromSlide);
+				responseHeaders.set("Content-Type", "text/plain");
+				exchange.sendResponseHeaders(200, 0);
+				OutputStream responseBody = exchange.getResponseBody();
+				responseBody.write(Integer.toString(delta).getBytes());
 				responseBody.close();
 				return;
 			}
@@ -73,11 +97,10 @@ class RequestHandler implements HttpHandler {
 				responseHeaders.set("Content-Type", "text/plain");
 				exchange.sendResponseHeaders(200, 0);
 				OutputStream responseBody = exchange.getResponseBody();
-				responseBody.write(Integer.toString(controller.curentSlide()).getBytes());
+				responseBody.write(Integer.toString(controller.currentSlide()).getBytes());
 				responseBody.close();
 				return;
 			}
-			
 			
 			String resourceName = "html/" + path; 
 			if ("html/".equals(resourceName) || resourceName.startsWith("html/index")) {
@@ -101,6 +124,10 @@ class RequestHandler implements HttpHandler {
 			if (content != null) {
 				if (uri.getPath().endsWith(".html")) {
 					responseHeaders.set("Content-Type", "text/html");
+				} else if (uri.getPath().endsWith(".js")) {
+						responseHeaders.set("Content-Type", "text/javascript");
+				} else if (uri.getPath().endsWith(".css")) {
+					responseHeaders.set("Content-Type", "text/css");
 				} else if (uri.getPath().toLowerCase().endsWith(".png")) {
 					responseHeaders.set("Content-Type", "image/png");
 				} else if (uri.getPath().toLowerCase().endsWith(".jpg") ||
@@ -177,4 +204,20 @@ class RequestHandler implements HttpHandler {
 			}
 		}
 	}
-}
+
+	
+	public static Map<String, String> splitQuery(URI uri) {
+	    Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+	    String query = uri.getQuery();
+	    String[] pairs = query.split("&");
+	    for (String pair : pairs) {
+	        int idx = pair.indexOf("=");
+	        try {
+				query_pairs.put(URLDecoder.decode(pair.substring(0, idx), "UTF-8"),
+						URLDecoder.decode(pair.substring(idx + 1), "UTF-8"));
+			} catch (UnsupportedEncodingException e) {
+				//UTF-8 is mandatory
+			}
+	    }
+	    return query_pairs;
+	}}

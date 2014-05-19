@@ -6,17 +6,17 @@
 #swipe-container .page-content {
   padding: 0.5rem 5rem;
 }
-#swipe-container .left {
+#swipe-container .center {
   float: none;
-  width: 80%;
+  width: 90%;
 }
 @media only screen and (orientation: portrait) {
   #swipe-container .page-content {
     padding: 0.5rem 1rem;
   }
-  #swipe-container .left {
+  #swipe-container .center {
     float: none;
-    width: 80%;
+    width: 90%;
   }
 }
 
@@ -24,32 +24,23 @@
   #swipe-container .page-content {
     padding: 0.5rem 1rem;
   }
-  #swipe-container .left {
+  #swipe-container .center {
     float: none;
-    width: 80%;
+    width: 90%;
   }
 }
 </style>
 </head>
 <body>
-  <header>
-    <div class="confine">
-      <a class="nav sync">Sync to presentation</a>
-    </div>
-  </header>
   <div id="content">
     <div id="swipe-container">
       <ul id="pages">
 #foreach ( $slidename in $slidenames)
         <li class="page">
           <div class="page-content">
-            <div class="left">
+            <div class="center">
               <div class="content">
                 <iframe src="${slidename}.html" width="200%" height="200%" frameborder="0"></iframe>
-              </div>
-            </div>
-            <div class="right">
-              <div class="content">
               </div>
             </div>
           </div>
@@ -65,6 +56,7 @@
 
   <script>
     'use strict';
+    var currentIndex = 0;
     var onResize = function() {
       var newWidth = $(window).width();
       var newZoom = newWidth * 0.8 / 1920;
@@ -78,6 +70,17 @@
   "-webkit-transform-origin": "0 0" });
       $('iframe').height(Math.floor(100/newZoom) + "%");
       $('iframe').width(Math.floor(100/newZoom) + "%");
+    }
+
+    function doPoll() {
+	      $.get("pollchange?timeout=10000&from=" + currentIndex, function(data) {
+	    	if (data != "0") {
+	    		var slideIndex = currentIndex + parseInt(data);
+	    		currentIndex = slideIndex;
+	            $("#swipe-container").dragend({ scrollToPage: slideIndex });
+	    	}
+	        window.setTimeout(doPoll, 500);
+	      });
     }
 
     $(function() {
@@ -118,12 +121,7 @@
       });
       $(window).resize(onResize);
       onResize();
-      $(".sync").on("click", function() {
-         $.get("currentslide", function(data) {
-           $("#swipe-container").dragend({ scrollToPage: Math.floor(data) });
-         });
-      });
-
+      window.setTimeout(doPoll, 500);
  });
   </script>
 

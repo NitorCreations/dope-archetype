@@ -8,9 +8,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+@SuppressWarnings("restriction")
 public class Presentation extends Application{
     @Override
     public void start(Stage stage) throws Exception {
+        stage.setFullScreen(true);
     	AnchorPane root = new AnchorPane();
     	Scene scene = new Scene(root);
     	@SuppressWarnings("unchecked")
@@ -21,15 +23,14 @@ public class Presentation extends Application{
     	controller.initialize(root);
         scene.setFill(Color.web("#a0a0a0"));
         stage.setScene(scene);
-        stage.setFullScreen(true);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-			
 			@Override
 			public void handle(WindowEvent arg0) {
 				controller.quit();
 			}
 		});
         stage.show();
+        controller.showSlide(0, true);
     }
     
 

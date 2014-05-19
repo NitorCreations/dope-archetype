@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="code-theme-$css" type="text/css" />
 
     <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script type="text/javascript" src="./jquery-1.9.1.min.js"></script>
     <script>
       if( window.location.search.match( /print-pdf/gi ) ) {
       var link = document.createElement( 'link' );
@@ -110,7 +111,27 @@
       { src: 'notes.js', async: true, condition: function() { return !!document.body.classList; } }
       ]
       });
-
+      Reveal.addEventListener( 'ready', function( event ) {
+    	  window.setTimeout(doPoll, 500);
+     } );
+     function doPoll() {
+		  var slides = Array.prototype.slice.call( document.querySelectorAll( '.reveal .slides section:not(.stack)' ) );
+	      var currentIndex = 0; 
+		  for (i=0; i<slides.length; i++) {
+			  if (slides[i] == Reveal.getCurrentSlide()) {
+			      currentIndex = i;
+			      break;
+			  }
+		  }
+	      $.get("pollchange?timeout=10000&from=" + currentIndex, function(data) {
+	    	if (data != "0") {
+	    		var slideIndex = currentIndex + parseInt(data);
+	    		var goTo = Reveal.getIndices( slides[slideIndex]);
+	    		Reveal.slide(goTo.h, goTo.v, 0);
+	    	}  
+       	    window.setTimeout(doPoll, 500);
+	      });
+	  }
     </script>
   </body>
 </html>

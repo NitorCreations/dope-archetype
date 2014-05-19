@@ -34,6 +34,7 @@ import org.wiigee.event.ButtonListener;
 import org.wiigee.event.GestureListener;
 import org.wiigee.event.InfraredListener;
 
+@SuppressWarnings("restriction")
 public class SpinController extends BaseController implements EventHandler<KeyEvent>, ButtonListener, GestureListener, InfraredListener{
 	static Map<String, Set<String>> jarEntryCache = new HashMap<String, Set<String>>();
 
@@ -101,9 +102,6 @@ public class SpinController extends BaseController implements EventHandler<KeyEv
 						showSlide(slides[index], false);
 					}
 				}).build();
-		if (hasTitle) {
-			showSlide(0, true);
-		}
 	}
 
 	@Override

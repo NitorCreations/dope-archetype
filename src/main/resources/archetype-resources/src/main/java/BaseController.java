@@ -46,6 +46,7 @@ import org.wiigee.event.GestureListener;
 import org.wiigee.event.InfraredEvent;
 import org.wiigee.event.InfraredListener;
 
+@SuppressWarnings("restriction")
 public abstract class BaseController implements EventHandler<KeyEvent>, ButtonListener, GestureListener, InfraredListener{
 	static Map<String, Set<String>> jarEntryCache = new HashMap<String, Set<String>>();
 
@@ -181,7 +182,7 @@ public abstract class BaseController implements EventHandler<KeyEvent>, ButtonLi
 		}
 	}
 
-	public synchronized void handle(KeyEvent event) {
+	public void handle(KeyEvent event) {
 		handle(event.getCode());
 	}
 
@@ -194,65 +195,92 @@ public abstract class BaseController implements EventHandler<KeyEvent>, ButtonLi
 		});
 	}
 
-	public synchronized void handle(KeyCode code) {
-		boolean quick=false;
-		switch (code) {
-		case LEFT:
-			index--;
-			break;
-		case RIGHT:
-			index++;
-			break;
-		case UP:
-			index++;
-			quick=true;
-			break;
-		case DOWN:
-			index--;
-			quick=true;
-			break;
-		case A:
-			index=0;
-			break;
-		case E:
-			index = slides.length -1;
-			break;
-		default:
-			return;
-		}
-		if (index < 0) {
-			index = 0;
-			tryVibrate(1000);
-			return;
-		} else if (index >= slides.length) {
-			index = slides.length - 1;
-			tryVibrate(1500);
-			return;
-		} else {
-			tryVibrate(150);
-		}
-		showSlide(slides[index], quick);
-	}
-	public synchronized int slideCount() {
-		return slides.length;
-	}
-	public synchronized int curentSlide() {
-		return index;
-	}
-
-	public synchronized void showSlide(int index) {
-		showSlide(index, false);
-	}
-
-	public synchronized void showSlide(final int index, final boolean quick) {
-		if (index >= slides.length || index < 0) throw new ArrayIndexOutOfBoundsException(index);
-		this.index = index;
-		Platform.runLater(new Runnable() {
-			@Override
-			public void run() {
-				showSlide(slides[index], quick);
+	public void handle(KeyCode code) {
+		synchronized (slides) {
+			boolean quick=false;
+			switch (code) {
+			case LEFT:
+				index--;
+				break;
+			case RIGHT:
+				index++;
+				break;
+			case UP:
+				index++;
+				quick=true;
+				break;
+			case DOWN:
+				index--;
+				quick=true;
+				break;
+			case A:
+				index=0;
+				break;
+			case E:
+				index = slides.length -1;
+				break;
+			default:
+				return;
 			}
-		});
+			if (index < 0) {
+				index = 0;
+				tryVibrate(1000);
+				return;
+			} else if (index >= slides.length) {
+				index = slides.length - 1;
+				tryVibrate(1500);
+				return;
+			} else {
+				tryVibrate(150);
+			}
+			showSlide(index, quick);
+		}
+	}
+
+	public int slideCount() {
+		synchronized (slides) {
+			return slides.length;
+		}
+	}
+
+	public int currentSlide() {
+		synchronized (slides) {
+			return index;
+		}
+	}
+
+	public void showSlide(int index) {
+		synchronized (slides) {
+			showSlide(index, false);
+		}
+	}
+
+	public int pollSlideChange(long timeout, int fromSlide) {
+		synchronized (slides) {
+			if (fromSlide != currentSlide()) {
+				return currentSlide() - fromSlide;
+			}
+			try {
+				slides.wait(timeout);
+			} catch (InterruptedException e) {}
+			return currentSlide() - fromSlide;
+		}
+	}
+
+	public void showSlide(final int index, final boolean quick) {
+		synchronized (slides) {
+			if (index >= slides.length || index < 0) throw new ArrayIndexOutOfBoundsException(index);
+			this.index = index;
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					synchronized (slides) {
+						showSlide(slides[index], quick);
+						slides.notifyAll();
+					}
+				}
+			});
+		}
 	}
 
 

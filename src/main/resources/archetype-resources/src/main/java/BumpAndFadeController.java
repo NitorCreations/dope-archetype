@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 
+@SuppressWarnings("restriction")
 public class BumpAndFadeController extends BaseController{
 	@Override
 	public void initialize(AnchorPane root) throws NumberFormatException, IOException, NoSuchAlgorithmException {
@@ -25,7 +26,6 @@ public class BumpAndFadeController extends BaseController{
 		for (ImageView nextView : slides) {
 			nextView.setOpacity(0);
 		}
-		showSlide(0);
 	}
 	
 	@Override

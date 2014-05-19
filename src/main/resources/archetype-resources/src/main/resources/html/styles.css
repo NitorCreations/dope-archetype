@@ -71,8 +71,8 @@ a:hover {
 }
 
 #content {
-  border-top: 4rem solid transparent;
-  border-bottom: 4rem solid transparent;
+  border-top: 1rem solid transparent;
+  border-bottom: 1rem solid transparent;
 
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
