@@ -36,6 +36,12 @@ public class PresentationHttpServer {
 			passwd.load(new FileInputStream(System.getProperty("httprevealpasswords")));
 			cc.setAuthenticator(new DigestAuthenticator(passwd, "reveal-presentation"));
 		}
+		cc = server.createContext("/notes/", new RequestHandler("notes", controller));
+		if (System.getProperty("httpnotespasswords") != null) {
+			Properties passwd = new Properties();
+			passwd.load(new FileInputStream(System.getProperty("httpnotespasswords")));
+			cc.setAuthenticator(new DigestAuthenticator(passwd, "notes-presentation"));
+		}
 		cc = server.createContext("/", new RequestHandler(""));
 		if (System.getProperty("httpdefaultpasswords") != null) {
 			Properties passwd = new Properties();
@@ -54,7 +60,6 @@ public class PresentationHttpServer {
 	}
 
 	protected static class Range {
-
 		public int start;
 		public int end;
 		public int rangeLen;

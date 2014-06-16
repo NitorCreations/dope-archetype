@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>$name</title>
+<style type="text/css">
+* {
+  margin:0;
+  padding:0;
+  font:16px verdana,Helvetica,sans-serif;
+}
+
+body{
+  font:16px verdana,Helvetica,sans-serif;
+  opacity: 1;
+}
+
+/* Content */
+h1{margin:40px;font-size:32px;color:#005fc6;font-weight:700;}
+h2{margin:40px;font-size:24px;color:#005fc6;font-weight:600;}
+h3{margin:40px;font-size:20px;color:#005fc6;font-weight:600;}
+
+ul{margin:0px 60px;list-style-image:url('bullet.png');}
+ul li{margin:0px 60px;line-height:20px}
+ul li ul{margin:0px 40px;list-style-image:url('bullet_2.png');}
+
+code{font-size:16px;font-family:courier}
+span{font-size:16px;font-family:courier}
+.page {
+  margin 2em;
+  page-break-after: always;
+}
+.notes {
+  margin: 2em;
+}
+</style>
+</head>
+<body>
+  <header>
+  </header>
+#foreach ( $slidename in $slidenames)
+      <div class="page">
+        <img src="${slidename}.png" width="100%" />
+        <div class="notes">
+        #if ($notes[$slidename]) 
+           $notes[$slidename]
+        #end
+        </div>
+      </div>
+#end
+  </body>
+</html>
