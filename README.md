@@ -7,7 +7,7 @@ Maven archetype for creating DOPE slidesets.
  * Generate maven project
 
 ```
-mvn archetype:generate -DarchetypeVersion=1.9 -DarchetypeArtifactId=dope-archetype \
+mvn archetype:generate -DarchetypeVersion=1.10 -DarchetypeArtifactId=dope-archetype \
   -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
   -DartifactId=baz-prez -DinteractiveMode=false
 ```
@@ -37,12 +37,12 @@ target/baz-prez-1.0-SNAPSHOT.zip
  * ```inceptionYear``` Used as copyright year on the title slide and put into the inceptionYear section in the pom.
  * ```name``` Used in the title of all slide html sources and on the title slide. If not given, artifactId with dashes replaced with spaces and words capitalized is used.
  * ```theme``` Used for the name of css files from the pom configuration of the ```dope-maven-plugin``` in the pom.
-    * Archetype currently has themes 'dark' and 'light'. 'dark' is the default 
+    * Archetype currently has themes 'dark' and 'light'. 'dark' is the default
 
 ### Example with all optional parameters defined ###
 
 ```
-mvn archetype:generate -DarchetypeVersion=1.9 -DarchetypeArtifactId=dope-archetype \
+mvn archetype:generate -DarchetypeVersion=1.10 -DarchetypeArtifactId=dope-archetype \
   -DarchetypeGroupId=com.nitorcreations -DgroupId=foo.bar \
   -DdeveloperName="Pasi Niemi" -DorganizationName="Nitor Creations" \
   -DinceptionYear=2014 -Dname="Baz Bar Awesomeness" \
